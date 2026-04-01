@@ -1,11 +1,11 @@
 'use client'
 
-import { useAuth } from "../lib/contexts/auth.context";
+import { useAuthContext } from "../lib/contexts/auth.context";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const Home = () => {
-  const user = useAuth()?.user;
+  const user = useAuthContext()?.user;
   const router = useRouter();
 
   useEffect(() => {

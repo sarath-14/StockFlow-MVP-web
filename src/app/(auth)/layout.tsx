@@ -1,13 +1,13 @@
 'use client'
 
 import { COLORS } from '@/lib/colors';
-import { IAuthContext, useAuth } from '@/lib/contexts/auth.context'
+import { IAuthContext, useAuthContext } from '@/lib/contexts/auth.context'
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { ClipLoader } from 'react-spinners';
 
 const AuthLayout = ({ children }: Readonly<{children: React.ReactNode}>) => {
-  const { user, loading } = (useAuth() as IAuthContext); 
+  const { user, loading } = (useAuthContext() as IAuthContext); 
   const router = useRouter();
 
   useEffect(() => {

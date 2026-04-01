@@ -1,7 +1,7 @@
 'use client'
 
 import api, { ResponseJson } from "@/lib/api";
-import { IAuthContext, useAuth } from "@/lib/contexts/auth.context";
+import { IAuthContext, useAuthContext } from "@/lib/contexts/auth.context";
 import AppButton, { BUTTON_TYPE } from "@/shared/components/Button";
 import AppInput from "@/shared/components/Input";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [organization, setOrganization] = useState('');
 
-    const { login } = (useAuth() as IAuthContext);
+    const { login } = (useAuthContext() as IAuthContext);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -49,11 +49,14 @@ const SignUp = () => {
             password,
             organization
         };
-
-        const response = await api.post<ResponseJson<{token: string}>>('public/auth/sign-up', signupDetails);
-        if(response.data.success) {
-            handleClearForm(e);
-            login(response.data.data.token);
+        try {
+            const response = await api.post<ResponseJson<{token: string}>>('public/auth/sign-up', signupDetails);
+            if(response.data.success) {
+                handleClearForm(e);
+                login(response.data.data.token);
+            }
+        } catch (error) {
+            console.log("SignUp Failed", error);
         }
     }
 

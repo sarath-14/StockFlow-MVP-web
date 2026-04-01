@@ -1,7 +1,7 @@
 'use client'
 
 import api, { ResponseJson } from "@/lib/api";
-import { IAuthContext, useAuth } from "@/lib/contexts/auth.context";
+import { IAuthContext, useAuthContext } from "@/lib/contexts/auth.context";
 import AppButton, { BUTTON_TYPE } from "@/shared/components/Button";
 import AppInput from "@/shared/components/Input";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const Login = () => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    const { login } = (useAuth() as IAuthContext);
+    const { login } = (useAuthContext() as IAuthContext);
 
     const handleFormSubmit = async (e: React.SubmitEvent | React.MouseEvent) => {
         e.preventDefault();
@@ -33,10 +33,14 @@ const Login = () => {
         const loginDetails = {
             email, password
         }
-        const response = await api.post<ResponseJson<{ token: string }>>('public/auth/login', loginDetails);
-        if(response.data.success) {
-            handleClearForm(e);
-            login(response.data.data.token);
+        try {
+            const response = await api.post<ResponseJson<{ token: string }>>('public/auth/login', loginDetails);
+            if(response.data.success) {
+                handleClearForm(e);
+                login(response.data.data.token);
+            }
+        } catch (error) {
+            console.log("Login Failed", error);
         }
     }
 

@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "../lib/contexts/auth.context";
 import { Toaster } from "sonner";
 import AppNavbar from "@/shared/components/Navbar";
+import { SettingsProvider } from "@/lib/contexts/settings.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,13 +33,15 @@ export default function RootLayout({
     >
       <body className="flex flex-col">
         <AuthProvider>
-          <div className="flex flex-col min-h-screen">
-            <AppNavbar />
-            <div className="flex-1 flex flex-col justify-center items-center">
-              {children}
+          <SettingsProvider>
+            <div className="flex flex-col min-h-screen">
+              <AppNavbar />
+              <div className="flex-1 flex flex-col justify-center items-center">
+                {children}
+              </div>
             </div>
-          </div>
-          <Toaster position="top-center" richColors></Toaster>
+            <Toaster position="top-center" richColors></Toaster>
+          </SettingsProvider>
         </AuthProvider>
       </body>
     </html>
