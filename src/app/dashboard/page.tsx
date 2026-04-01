@@ -46,7 +46,7 @@ const Dashboard = () => {
   useEffect(() => {
     // eslint-disable-next-line
     filterLowStockProducts();
-  }, [products]);
+  }, [products, threshold]);
 
   const getProducts = async (searchTerm = '') => {
     setIsProductsLoading(true);
